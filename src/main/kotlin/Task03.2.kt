@@ -1,5 +1,4 @@
-/**
- * Задача №2 - Разная комиссия
+/** Задача №2 - Разная комиссия
  * В прошлый раз мы рассматривали упрощённый вариант вычисления комиссии. Пришла пора сделать нормальный.
  *
  * Q: Почему?
@@ -16,6 +15,57 @@
  * Итог: у вас должен быть репозиторий на GitHub, в котором будет ваш Gradle-проект.
  */
 
-fun main() {
+package ru.netology
 
+val VK_PAY = 0
+val VISA = 1
+val MASTER_CARD = 2
+val MAESTRO = 3
+val MIR = 4
+var sumInMonthForMcAndMaestro = 0
+fun main() {
+    pay(5_200_00)
+    pay(15_700_00, VISA)
+    pay(1_800_00)
+    pay(100_00)
+    pay(20_700_00, MASTER_CARD)
+    pay(20_700_00, MASTER_CARD)
+    pay(20_700_00, MASTER_CARD)
+    pay(20_700_00, MASTER_CARD)
+    pay(9_200_00)
+    pay(40_909_00, MIR)
+}
+
+fun pay(amount: Int, typeCard: Int = VK_PAY) {
+    println(
+        "С суммы ${intKopToRubAndKop(amount)}, " +
+                "будет взята комиссия ${intKopToRubAndKop(calcComission(amount, typeCard))}"
+    )
+}
+
+fun calcComission(amount: Int, typeCard : Int = VK_PAY): Int = when (typeCard) {
+    VISA, MIR -> comissionByVisaAndMir(amount)
+    MASTER_CARD, MAESTRO -> comissionByMasterCardAndMaestro(amount)
+    VK_PAY -> 0
+    else -> 0
+}
+
+fun comissionByMasterCardAndMaestro(amount: Int): Int {
+    val max = 75_000_00
+    val persentComission = 6 //0,6
+    sumInMonthForMcAndMaestro += amount
+    return if (sumInMonthForMcAndMaestro < max) 0 else amount * persentComission / 10000 + 20
+}
+
+
+fun comissionByVisaAndMir(amount: Int): Int {
+    val minCommission = 35_00
+    val persentCommission = 75 //0,75
+    return if (amount * persentCommission / 10000 > minCommission) {
+        amount * persentCommission / 10000
+    } else minCommission
+}
+
+fun intKopToRubAndKop(kop: Int): String {
+    return "${kop / 100} руб. ${kop % 100} коп."
 }
