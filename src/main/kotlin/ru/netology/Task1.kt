@@ -16,7 +16,7 @@ fun commissionCalculation(amount: Int): Int {
     val minComission = 35_00
     val persentComission = 75 //0,75
     return if (amount / 10000 * persentComission > minComission) {
-        amount / 10000 * persentComission
+        amount * persentComission / 10000
     } else minComission
 }
 
