@@ -17,11 +17,11 @@
 
 package ru.netology
 
-val VK_PAY = 0
-val VISA = 1
-val MASTER_CARD = 2
-val MAESTRO = 3
-val MIR = 4
+const val VK_PAY = 0
+const val VISA = 1
+const val MASTER_CARD = 2
+const val MAESTRO = 3
+const val MIR = 4
 var sumInMonthForMcAndMaestro = 0
 fun main() {
     pay(5_200_00)
@@ -39,18 +39,18 @@ fun main() {
 fun pay(amount: Int, typeCard: Int = VK_PAY) {
     println(
         "С суммы ${intKopToRubAndKop(amount)}, " +
-                "будет взята комиссия ${intKopToRubAndKop(calcComission(amount, typeCard))}"
+                "будет взята комиссия ${intKopToRubAndKop(calcCommission(amount, typeCard))}"
     )
 }
 
-fun calcComission(amount: Int, typeCard : Int = VK_PAY): Int = when (typeCard) {
-    VISA, MIR -> comissionByVisaAndMir(amount)
-    MASTER_CARD, MAESTRO -> comissionByMasterCardAndMaestro(amount)
+fun calcCommission(amount: Int, typeCard : Int = VK_PAY): Int = when (typeCard) {
+    VISA, MIR -> commissionByVisaAndMir(amount)
+    MASTER_CARD, MAESTRO -> commissionByMasterCardAndMaestro(amount)
     VK_PAY -> 0
     else -> 0
 }
 
-fun comissionByMasterCardAndMaestro(amount: Int): Int {
+fun commissionByMasterCardAndMaestro(amount: Int): Int {
     val max = 75_000_00
     val persentComission = 6 //0,6
     sumInMonthForMcAndMaestro += amount
@@ -58,7 +58,7 @@ fun comissionByMasterCardAndMaestro(amount: Int): Int {
 }
 
 
-fun comissionByVisaAndMir(amount: Int): Int {
+fun commissionByVisaAndMir(amount: Int): Int {
     val minCommission = 35_00
     val persentCommission = 75 //0,75
     return if (amount * persentCommission / 10000 > minCommission) {
