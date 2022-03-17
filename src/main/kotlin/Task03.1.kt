@@ -46,7 +46,7 @@ fun agoToText(seconds: Int): String = when (seconds) {
 }
 
 fun minToText(min: Int): String = when (min % 10) {
-    1 -> "минуту назад"
+    1 -> "минуту $w"
     in 2..4 -> "$min минуты $w"
     0, in 5..9 -> "$min минут $w"
     else -> ""
