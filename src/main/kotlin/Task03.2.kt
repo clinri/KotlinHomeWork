@@ -22,50 +22,52 @@ const val VISA = 1
 const val MASTER_CARD = 2
 const val MAESTRO = 3
 const val MIR = 4
-var sumInMonthForMcAndMaestro = 0
 fun main() {
-    pay(5_200_00)
-    pay(15_700_00, VISA)
-    pay(1_800_00)
-    pay(100_00)
-    pay(20_700_00, MASTER_CARD)
-    pay(20_700_00, MASTER_CARD)
-    pay(20_700_00, MASTER_CARD)
-    pay(20_700_00, MASTER_CARD)
-    pay(9_200_00)
-    pay(40_909_00, MIR)
+    println(pay(5_200_11))
+    println(pay(15_700_05, VISA))
+    println(pay(1_800_00))
+    println(pay(100_00))
+    println(pay(20_700_00, MASTER_CARD))
+    println(pay(20_700_00, MASTER_CARD))
+    println(pay(20_700_00, MASTER_CARD))
+    println(pay(20_700_00, MASTER_CARD))
+    println(pay(9_200_00))
+    println(pay(40_909_00, MIR))
 }
 
-fun pay(amount: Int, typeCard: Int = VK_PAY) {
-    println(
-        "С суммы ${intKopToRubAndKop(amount)}, " +
-                "будет взята комиссия ${intKopToRubAndKop(calcCommission(amount, typeCard))}"
-    )
+fun pay(amount: Int, currentSumPay: Int = 0, typeCard: Int = VK_PAY): String {
+    return "С суммы ${intKopToRubAndKop(amount)}, " +
+            "будет взята комиссия ${intKopToRubAndKop(calcCommission(amount, currentSumPay, typeCard))}"
 }
 
-fun calcCommission(amount: Int, typeCard : Int = VK_PAY): Int = when (typeCard) {
+fun calcCommission(amount: Int, currentSumPay: Int = 0, typeCard: Int = VK_PAY): Int = when (typeCard) {
     VISA, MIR -> commissionByVisaAndMir(amount)
-    MASTER_CARD, MAESTRO -> commissionByMasterCardAndMaestro(amount)
+    MASTER_CARD, MAESTRO -> commissionByMasterCardAndMaestro(amount, currentSumPay)
     VK_PAY -> 0
     else -> 0
 }
 
-fun commissionByMasterCardAndMaestro(amount: Int): Int {
+fun commissionByMasterCardAndMaestro(amount: Int, currentSumPay: Int = 0): Int {
     val max = 75_000_00
-    val persentComission = 6 //0,6
-    sumInMonthForMcAndMaestro += amount
-    return if (sumInMonthForMcAndMaestro < max) 0 else amount * persentComission / 10000 + 20
+    val persentComission = 6 //0,6%
+    val constPartComission = 20
+    return if (
+        currentSumPay >= max ||
+        currentSumPay + amount >= max
+    )
+        amount * persentComission / 1000 + constPartComission else 0
 }
 
 
 fun commissionByVisaAndMir(amount: Int): Int {
     val minCommission = 35_00
-    val persentCommission = 75 //0,75
+    val persentCommission = 75 //0,75%
     return if (amount * persentCommission / 10000 > minCommission) {
         amount * persentCommission / 10000
     } else minCommission
 }
 
 fun intKopToRubAndKop(kop: Int): String {
-    return "${kop / 100} руб. ${kop % 100} коп."
+    val kopeiki = String.format("%02d", kop % 100)
+    return "${kop / 100} руб. $kopeiki коп."
 }
