@@ -23,12 +23,12 @@ const val MASTER_CARD = 2
 const val MAESTRO = 3
 const val MIR = 4
 fun main() {
-    println(pay(5_200_11))
+    println(pay(5_200_11,75_000, VISA))
     println(pay(15_700_05, VISA))
     println(pay(1_800_00))
-    println(pay(100_00))
-    println(pay(20_700_00, MASTER_CARD))
-    println(pay(20_700_00, MASTER_CARD))
+    println(pay(100_00, 100_000, MAESTRO))
+    println(pay(20_700_00,45_000, MASTER_CARD))
+    println(pay(20_700_00, 60_000, MASTER_CARD))
     println(pay(20_700_00, MASTER_CARD))
     println(pay(20_700_00, MASTER_CARD))
     println(pay(9_200_00))
