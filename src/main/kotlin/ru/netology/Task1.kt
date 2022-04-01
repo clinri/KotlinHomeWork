@@ -4,7 +4,7 @@
  */
 package ru.netology
 
-val amount = 4_000_00
+val amount = 5_200_00
 fun main() {
     println(
         "С суммы ${amount / 100} руб. ${amount % 100} коп., " +
@@ -15,9 +15,8 @@ fun main() {
 fun commissionCalculation(amount: Int): Int {
     val minComission = 35_00
     val persentComission = 75 //0,75
-    val comission = amount  * persentComission / 10000
-    return if (comission > minComission) {
-        comission
+    return if (amount * persentComission / 10000  > minComission) {
+        amount * persentComission / 10000
     } else minComission
 }
 
