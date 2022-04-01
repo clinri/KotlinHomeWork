@@ -11,15 +11,20 @@ package ru.netology
  * Итог: у вас должен быть репозиторий на GitHub, в котором расположен ваш Gradle-проект.
  */
 
-val likes = 411
+var likes = 101
 
 fun main() {
-    println("Понравилось $likes человек${endingWordLikes(likes)}")
+    for (i in 1..10) {
+        println("Понравилось $likes ${endingWordLikes(likes)}")
+        likes++
+    }
 }
 
 fun endingWordLikes(likes: Int): String {
-    val lastNumber = likes % 10
-    return if (lastNumber == 1) "у"
-    else if (lastNumber >= 2  || lastNumber == 0) "ам"
+    val lastNumberHundred = likes % 100
+    val lastNumberTen = likes % 10
+    return if (lastNumberHundred in 11..19) "человекам"
+    else if (lastNumberTen == 1) "человеку"
+    else if (lastNumberTen >= 2 || lastNumberTen == 0) "человекам"
     else ""
 }
